@@ -1,6 +1,6 @@
 // app/api/register/route.ts
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const MOCKAPI_URL = "https://6858c221138a18086dfbc0ba.mockapi.io/users"; // ganti sesuai milikmu
 
