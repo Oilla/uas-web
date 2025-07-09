@@ -16,7 +16,7 @@ const [feedback, setFeedback] = useState("");
 const [score, setScore] = useState(0);
 
 useEffect(() => {
-    fetch('https://6858c221138a18086dfbc0bb.mockapi.io/questions')
+    fetch('https://6858c221138a18086dfbc0ba.mockapi.io/questions')
     .then(res => res.json())
     .then(data => setQuestions(data));
 }, []);

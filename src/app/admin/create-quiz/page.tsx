@@ -13,7 +13,7 @@ export default function AdminPage() {
       return;
     }
 
-    await fetch('https://6858c221138a18086dfbc0bb.mockapi.io/questions', {
+    await fetch('https://6858c221138a18086dfbc0ba.mockapi.io/questions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
