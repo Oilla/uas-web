@@ -7,7 +7,7 @@ import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function ClientCreatePage({ classId }: { classId: string }) {
+export default function CreatePage({ classId }: { classId: string }) {
   const decodedId = decodeURIComponent(classId);
 
   return (
