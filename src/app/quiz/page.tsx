@@ -1,68 +1,146 @@
 'use client';
-import { useEffect, useState } from 'react';
 
-type Question = {
-id: string;
-question: string;
-choices: string[];
-correctIndex: number;
-};
+import React, { useState } from 'react';
+import {
+    Box,
+    Typography,
+    Button,
+    Card,
+    CardContent,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    Grid
+} from '@mui/material';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
-export default function QuizPage() {
-const [questions, setQuestions] = useState<Question[]>([]);
-const [index, setIndex] = useState(0);
-const [selected, setSelected] = useState<number | null>(null);
-const [feedback, setFeedback] = useState("");
-const [score, setScore] = useState(0);
+const QuizPage: React.FC = () => {
+    const [selectedValue, setSelectedValue] = useState<string>('');
+    const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
-useEffect(() => {
-    fetch('https://6858c221138a18086dfbc0ba.mockapi.io/questions')
-    .then(res => res.json())
-    .then(data => setQuestions(data));
-}, []);
+    const correctAnswer = '7';
+    const question = "Doni memiliki 10 apel, lalu Jio memakan 3 apel Doni. Berapakah sisa apel yang dimiliki Doni sekarang?";
+    const options = ['9', '5', '7', '13'];
 
-const handleNext = () => {
-    if (selected === questions[index].correctIndex) {
-    setScore(score + 1);
-    setFeedback("✅ Benar!");
-    } else {
-    setFeedback("❌ Salah!");
-    }
+    const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedValue(event.target.value);
+        setShowFeedback(true);
+    };
 
-    setTimeout(() => {
-    setFeedback("");
-    setSelected(null);
-    setIndex(index + 1);
-    }, 1000);
-};
+    const isWrongAnswer = showFeedback && selectedValue !== correctAnswer;
 
-if (questions.length === 0) return <p>Loading...</p>;
-if (index >= questions.length) return <p>Selesai! Skor kamu: {score}/{questions.length}</p>;
+    return (
+        <Box sx={{ backgroundColor: '#FEFFD5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <Navbar />
 
-const q = questions[index];
+            <Box
+                sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 4
+                }}
+            >
+                <Card sx={{
+                    backgroundColor: '#1D5A4B',
+                    color: 'white',
+                    borderRadius: '20px',
+                    padding: '40px 30px',
+                    width: '100%',
+                    maxWidth: '800px',
+                }}>
+                    <CardContent>
+                        {/* BORDER UNTUK SOAL */}
+                        <Box sx={{
+                            border: '2px solid white',
+                            borderRadius: '16px',
+                            padding: '16px 24px',
+                            mb: 3 // Memberi jarak bawah ke kotak jawaban
+                        }}>
+                            <Typography variant="h5" component="p" sx={{ fontWeight: 'medium' }}>
+                                {question}
+                            </Typography>
+                        </Box>
 
-return (
-    <div className="p-4 max-w-xl mx-auto">
-    <h2 className="text-xl font-bold mb-4">{q.question}</h2>
-    <div className="grid gap-2 mb-4">
-        {q.choices.map((choice, i) => (
-        <button
-            key={i}
-            onClick={() => setSelected(i)}
-            className={`p-2 border rounded ${selected === i ? 'bg-blue-500 text-white' : 'bg-white'}`}
-        >
-            {choice}
-        </button>
-        ))}
-    </div>
-    <button
-        onClick={handleNext}
-        disabled={selected === null}
-        className="bg-green-600 text-white px-4 py-2 rounded"
-    >
-        Next
-    </button>
-    {feedback && <p className="mt-2">{feedback}</p>}
-    </div>
-);
+                        {/* BORDER UNTUK JAWABAN */}
+                        <Box sx={{
+                            border: '2px solid white',
+                            borderRadius: '16px',
+                            padding: '24px'
+                        }}>
+                            <Grid container spacing={4} alignItems="center">
+                                {/* Kolom Pilihan Jawaban */}
+                                <Grid item xs={12} md={6}>
+                                    <FormControl component="fieldset">
+                                        <RadioGroup
+                                            name="quiz-options"
+                                            value={selectedValue}
+                                            onChange={handleRadioChange}
+                                        >
+                                            {options.map((option) => (
+                                                <FormControlLabel
+                                                    key={option}
+                                                    value={option}
+                                                    control={
+                                                        <Radio sx={{
+                                                            color: 'white',
+                                                            '&.Mui-checked': {
+                                                                color: '#87CEEB',
+                                                            },
+                                                        }} />
+                                                    }
+                                                    label={
+                                                        <Typography sx={{ fontSize: '1.2rem' }}>
+                                                            {option}
+                                                        </Typography>
+                                                    }
+                                                    sx={{ mb: 1 }}
+                                                />
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Grid>
+
+                                {/* Kolom Feedback Jawaban */}
+                                {isWrongAnswer && (
+                                    <Grid item xs={12} md={6}>
+                                        <Card sx={{
+                                            backgroundColor: 'white',
+                                            color: 'black',
+                                            borderRadius: '15px',
+                                            padding: '16px'
+                                        }}>
+                                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                                                Jawaban kamu salah
+                                            </Typography>
+                                            <Typography variant="body1" sx={{ my: 1, fontWeight: 'bold' }}>
+                                                10 - 3 = 7
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                Jangan pantang menyerah, yuk coba soal berikutnya.
+                                            </Typography>
+                                        </Card>
+                                    </Grid>
+                                )}
+                            </Grid>
+                        </Box>
+
+                        {/* Tombol Lanjut */}
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+                            <Button sx={{ color: 'white', textTransform: 'none', fontSize: '1.1rem' }}>
+                                Lanjut &raquo;
+                            </Button>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Box>
+
+            <Footer />
+        </Box>
+    );
 }
+
+export default QuizPage;
