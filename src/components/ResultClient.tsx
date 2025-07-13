@@ -20,18 +20,24 @@ export default function ResultPage() {
   const scoreParam = params.get('score');
   const totalParam = params.get('total');
 
-  // Redirect jika tidak ada query
   useEffect(() => {
     if (!scoreParam || !totalParam) {
-      router.replace('/kuis'); // langsung redirect tanpa bisa kembali
+      router.replace('/kuis');
     }
   }, [scoreParam, totalParam, router]);
 
-  // Parse nilai jika ada
   const score = parseInt(scoreParam || '0', 10);
   const total = parseInt(totalParam || '0', 10);
   const correctAnswers = score;
   const wrongAnswers = total - score;
+
+  // Teks motivasi berdasarkan skor
+  const motivation =
+    score <= 3
+      ? 'Wah, ayo belajar lagi!'
+      : score <= 6
+      ? 'Semangat belajarnya, kamu pasti bisa!'
+      : 'Mantap !! Skor bagus!';
 
   return (
     <Box
@@ -139,7 +145,7 @@ export default function ResultPage() {
                 fontSize: { xs: '1rem', sm: '1.2rem' },
               }}
             >
-              Lumayan banget, belajar lebih giat lagi ya
+              {motivation}
             </Typography>
           </CardContent>
         </Card>
