@@ -12,13 +12,13 @@ function HeroSection() {
         flexDirection: { xs: 'column', md: 'row' },
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '85vh',
-        gap: 4,
+        minHeight: '60vh',
+        gap: 6,
         px: { xs: 3, md: 10 },
         py: { xs: 6, md: 8 },
       }}
     >
-      {/* Kiri: Gambar */}
+      {/* Kiri: Gambar animasi */}
       <Box
         sx={{
           flex: 1,
@@ -39,42 +39,53 @@ function HeroSection() {
         />
       </Box>
 
-      {/* Kanan: Teks dan Tombol */}
+      {/* Kanan: Konten teks */}
       <Box
         sx={{
           flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: { xs: 'center', md: 'flex-start' },
           textAlign: { xs: 'center', md: 'left' },
+          gap: 2,
         }}
       >
+        {/* Logo EduMath */}
         <Image
           src="/logo.png"
           alt="EduMath Logo"
           width={280}
           height={70}
           style={{
-            margin: '0 auto',
-            marginBottom: 16,
-            display: 'block',
             maxWidth: '100%',
+            height: 'auto',
           }}
         />
 
+        {/* Subjudul */}
         <Typography
           variant="h5"
-          sx={{ mb: 3, fontWeight: 500, color: 'white' }}
+          sx={{
+            fontWeight: 500,
+            color: 'white',
+            fontSize: { xs: '1.2rem', md: '1.5rem' },
+          }}
         >
           Belajar Matematika jadi lebih seru!
         </Typography>
 
+        {/* Tombol */}
         <Button
           variant="contained"
           size="large"
           sx={{
             borderRadius: '50px',
-            padding: '15px 40px',
-            fontSize: '1.1rem',
+            padding: '14px 36px',
+            fontSize: '1rem',
             textTransform: 'none',
+            mt: { xs: 2, md: 3 },
           }}
+          href="/kuis"
         >
           Mulai Kuis Sekarang
         </Button>
