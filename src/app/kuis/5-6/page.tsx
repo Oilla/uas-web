@@ -63,13 +63,13 @@ const handleNext = () => {
 const optionLabels = ['A', 'B', 'C', 'D'];
 
     return (
-        <Box sx={{ backgroundColor: '#FEFFD5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ backgroundColor: '#d4dbfe', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Navbar />
 
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 4 }}>
             <Card
             sx={{
-                backgroundColor: '#1D5A4B',
+                backgroundColor: '#0c1d72',
                 color: 'white',
                 borderRadius: '20px',
                 padding: { xs: '24px 16px', md: '40px 30px' },

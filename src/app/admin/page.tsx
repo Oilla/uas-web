@@ -153,6 +153,27 @@ export default function AdminPage() {
 
   return (
     <Box sx={{ p: 4 }}>
+
+         <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              mb: { xs: 2, sm: 3 },
+            }}
+          >
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => router.push('/profile')}
+              sx={{
+                fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                paddingX: { xs: 2, sm: 3 },
+                paddingY: { xs: 0.5, sm: 1 },
+              }}
+            >
+              Kembali
+            </Button>
+          </Box>
       <Typography variant="h4" gutterBottom>
         Halaman Admin - Kelola Kuis
       </Typography>
@@ -175,11 +196,13 @@ export default function AdminPage() {
         filteredQuizzes.map((quiz) => (
           <Card key={quiz.id} sx={{ mb: 2 }}>
             <CardContent>
-              <Typography variant="h6">{quiz.question}</Typography>
+              <Typography variant="h6" sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                {quiz.question}
+              </Typography>
               {quiz.options.map((opt, i) => (
-                <Typography key={i}>
-                  {String.fromCharCode(65 + i)}. {opt}
-                </Typography>
+                <Typography sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+                {String.fromCharCode(65 + i)}. {opt}
+              </Typography>
               ))}
               <Typography sx={{ mt: 1 }} color="green">
                 Jawaban Benar: {quiz.answer}
