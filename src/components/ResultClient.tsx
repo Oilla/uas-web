@@ -36,7 +36,7 @@ export default function ResultPage() {
   return (
     <Box
       sx={{
-        backgroundColor: '#4A6B5D',
+        backgroundColor: '#D0D6F7',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',

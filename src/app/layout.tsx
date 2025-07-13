@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "EduMath",
   description: "Quiz made by WVC",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/maths.png",
   }
 };
 
