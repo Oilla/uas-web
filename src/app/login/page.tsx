@@ -1,86 +1,198 @@
-// /login/page.tsx
 'use client';
-import { useState } from 'react';
+
+import React, { useState } from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  Paper,
+  TextField,
+  Alert,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useUser } from 'src/components/UserContext';
 
-// di komponen login
-
-
-
 export default function LoginPage() {
-    const { setUser } = useUser();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [status, setStatus] = useState('');
-    const router = useRouter();
+  const { setUser } = useUser();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [status, setStatus] = useState('');
+  const [error, setError] = useState(false);
+  const router = useRouter();
 
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(false);
+    setStatus('');
+
     try {
-    const res = await fetch('/api/login', {
+      const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-    });
+      });
 
-    // Ambil response text dulu
-    const text = await res.text();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
 
-    // Jika ada isi text, parse JSON, jika tidak beri nilai default
-    const data = text ? JSON.parse(text) : {};
-
-    if (res.ok) {
+      if (res.ok) {
+        setUser(data.user);
         setStatus('✅ Login berhasil');
-        if (data.user?.role === 'admin') {
-            setUser(data.user);
-            router.push('/profile');
-        } else {
-            router.push('/');
-        }
-        } else {
+        router.push(data.user?.role === 'admin' ? '/profile' : '/');
+      } else {
         setStatus(`❌ ${data.error || 'Login gagal'}`);
-        }
-    }catch (error) {
-    // Pastikan error message aman
-        const message = error instanceof Error ? error.message : String(error);
-        setStatus(`❌ Terjadi kesalahan: ${message}`);
+        setError(true);
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setStatus(`❌ Terjadi kesalahan: ${message}`);
+      setError(true);
     }
-    };
+  };
 
-    return (
-    
-    <main className="max-w-md mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+  return (
+    <Box
+      sx={{
+        backgroundColor: '#0056D4',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        px: 2,
+      }}
+    >
+      {/* Judul Welcome */}
+      <Typography
+        variant="h2"
+        component="h1"
+        sx={{
+          color: '#FFD700',
+          fontWeight: 'bold',
+          textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+          mb: { xs: 6, sm: 8, md: 10 },
+          fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+        }}
+      >
+        Welcome
+      </Typography>
 
-        <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded shadow">
-        <input
+      {/* Kotak Form Login */}
+      <Paper
+        elevation={6}
+        sx={{
+          backgroundColor: '#003366',
+          borderRadius: '30px',
+          p: { xs: 4, sm: 6, md: 8 },
+          maxWidth: 450,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: { xs: 3, sm: 4 },
+        }}
+      >
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <TextField
+            fullWidth
+            label="Email"
             type="email"
-            placeholder="Email"
-            className="w-full border rounded p-2"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-        />
-        <input
+            variant="outlined"
+            InputProps={{
+              sx: {
+                borderRadius: '20px',
+                backgroundColor: 'white',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'lightgray',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#FFD700',
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: 'gray',
+                '&.Mui-focused': {
+                  color: '#FFD700',
+                },
+              },
+            }}
+          />
+
+          <TextField
+            fullWidth
+            label="Password"
             type="password"
-            placeholder="Password"
-            className="w-full border rounded p-2"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-        />
-        <button
+            variant="outlined"
+            sx={{ mt: 2 }}
+            InputProps={{
+              sx: {
+                borderRadius: '20px',
+                backgroundColor: 'white',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'lightgray',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#FFD700',
+                },
+              },
+            }}
+            InputLabelProps={{
+              sx: {
+                color: 'gray',
+                '&.Mui-focused': {
+                  color: '#FFD700',
+                },
+              },
+            }}
+          />
+
+          <Button
             type="submit"
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-        >
-            Masuk
-        </button>
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3,
+              backgroundColor: 'white',
+              color: 'black',
+              borderRadius: '25px',
+              py: 1.5,
+              px: 4,
+              fontSize: '1.3rem',
+              fontWeight: 'bold',
+              boxShadow: '3px 3px 6px rgba(0,0,0,0.3)',
+              '&:hover': {
+                backgroundColor: '#f0f0f0',
+                boxShadow: '4px 4px 8px rgba(0,0,0,0.4)',
+              },
+            }}
+          >
+            Login
+          </Button>
         </form>
 
-        {status && <p className="mt-4 text-center text-sm text-gray-700">{status}</p>}
-    </main>
-    );
+        {status && (
+          <Alert
+            severity={error ? 'error' : 'success'}
+            sx={{ width: '100%', mt: 2, fontSize: '0.9rem' }}
+          >
+            {status}
+          </Alert>
+        )}
+      </Paper>
+    </Box>
+  );
 }
-
-

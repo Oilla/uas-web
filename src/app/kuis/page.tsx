@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -12,7 +12,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useUser } from 'src/components/UserContext';
 
 const classData = [
   { title: 'Kelas 1 - 2', imageSrc: '/kelas1-2.png', createLink: '/kuis/1-2' },
@@ -20,7 +20,7 @@ const classData = [
   { title: 'Kelas 5 - 6', imageSrc: '/kelas5-6.png', createLink: '/kuis/5-6' },
 ];
 
-const MOCKAPI_USERS_URL = 'https://6858c221138a18086dfbc0ba.mockapi.io/users'; // Ganti dengan URL MockAPI kamu
+const MOCKAPI_USERS_URL = 'https://6858c221138a18086dfbc0ba.mockapi.io/users';
 
 interface User {
   id: string;
@@ -30,13 +30,11 @@ interface User {
   password?: string;
 }
 
-import { useUser } from 'src/components/UserContext';
-
 function ClassPage() {
   const { user } = useUser();
-  const [userRole, setUserRole] = React.useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchUser() {
       if (!user?.email) return;
 
@@ -54,32 +52,38 @@ function ClassPage() {
   }, [user?.email]);
 
   return (
-    <Box sx={{ backgroundColor: '#d4dbfe', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        backgroundColor: '#d4dbfe',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Navbar />
 
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', padding: 4 }}>
-        
-        {/* Tombol "Buat Kuis" */}
+      <Box sx={{marginTop: 10, flexGrow: 1, px: { xs: 2, md: 6 }, py: 4 }}>
+        {/* Tombol Buat Kuis */}
         {userRole === 'admin' && (
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-          <Button
-            component={Link}
-            href="/create"
-            variant="contained"
-            sx={{
-              backgroundColor: '#00C853',
-              color: 'white',
-              borderRadius: '20px',
-              padding: '8px 24px',
-              fontSize: '1rem',
-              '&:hover': {
-                backgroundColor: '#009624'
-              }
-            }}
-          >
-            Buat Kuis
-          </Button>
-        </Box>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+            <Button
+              component={Link}
+              href="/create"
+              variant="contained"
+              sx={{
+                backgroundColor: '#00C853',
+                color: 'white',
+                borderRadius: '20px',
+                padding: '8px 24px',
+                fontSize: '1rem',
+                '&:hover': {
+                  backgroundColor: '#009624'
+                }
+              }}
+            >
+              Buat Kuis
+            </Button>
+          </Box>
         )}
 
         {/* Kartu Kelas */}
@@ -89,73 +93,78 @@ function ClassPage() {
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: 4,
-            mt: 2,
           }}
         >
           {classData.map((item, index) => (
-            <Box
+            <Card
               key={index}
               sx={{
-                width: { xs: '100%', sm: '45%', md: '30%' },
+                backgroundColor: '#F5F5F5',
+                borderRadius: '30px',
+                width: { xs: '100%', sm: '80%', md: '300px' },
                 display: 'flex',
-                justifyContent: 'center',
+                flexDirection: 'column',
+                padding: 2,
               }}
             >
-              <Card
+              <CardContent
                 sx={{
-                  backgroundColor: '#F5F5F5',
-                  borderRadius: '30px',
-                  textAlign: 'center',
-                  padding: '20px 10px',
-                  width: '100%',
-                  maxWidth: 350,
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: { xs: 'row', md: 'column' },
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: { xs: 2, md: 3 },
+                  textAlign: 'center',
                 }}
               >
-                <CardContent
+                {/* Logo */}
+                <Box
                   sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
+                    width: { xs: 50, md: 80 },
+                    height: { xs: 50, md: 80 },
+                    position: 'relative',
+                    flexShrink: 0,
                   }}
                 >
-                  <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: 'black', marginBottom: 2 }}>
-                    {item.title}
-                  </Typography>
+                  <Image
+                    src={item.imageSrc}
+                    alt={`Ikon ${item.title}`}
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Box>
 
-                  <Box sx={{ marginY: 2 }}>
-                    <Image
-                      src={item.imageSrc}
-                      alt={`Ikon ${item.title}`}
-                      width={180}
-                      height={180}
-                      style={{ margin: '0 auto' }}
-                    />
-                  </Box>
+                {/* Teks */}
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    color: 'black',
+                    fontSize: { xs: '0.9rem', md: '1.2rem' },
+                    flexGrow: 1,
+                  }}
+                >
+                  {item.title}
+                </Typography>
 
-                  <Button
-                    component={Link}
-                    href={item.createLink}
-                    variant="contained"
-                    sx={{
-                      mt: 'auto',
-                      backgroundColor: '#0079ff',
-                      borderRadius: '20px',
-                      padding: '12px 50px',
-                      color: 'white',
-                      fontSize: '1.3rem',
-                      '&:hover': {
-                        backgroundColor: '#0051ab'
-                      }
-                    }}
-                  >
-                    Kuis
-                  </Button>
-                </CardContent>
-              </Card>
-            </Box>
+                {/* Tombol */}
+                <Button
+                  component={Link}
+                  href={item.createLink}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#0079ff',
+                    borderRadius: '20px',
+                    padding: { xs: '6px 14px', md: '10px 40px' },
+                    fontSize: { xs: '0.8rem', md: '1.1rem' },
+                    '&:hover': {
+                      backgroundColor: '#0051ab'
+                    }
+                  }}
+                >
+                  Kuis
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </Box>
       </Box>

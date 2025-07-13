@@ -19,7 +19,7 @@ export default function Home() {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           minHeight: { xs: '100vh', md: '100vh' }, // agar selalu full screen
-          display: 'flex',
+          display: '',
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -48,10 +48,12 @@ export default function Home() {
         >
           <HeroSection />
         </Container>
+        <Box sx={{ position: 'relative', zIndex: 2 }}>
+          <Footer />
+        </Box>
       </Box>
 
       {/* Footer di luar box background agar tidak overlap */}
-      <Footer />
     </main>
   );
 }
