@@ -61,7 +61,7 @@ function ClassPage() {
       }}
     >
       <Navbar />
-
+      
       <Box sx={{marginTop: 10, flexGrow: 1, px: { xs: 2, md: 6 }, py: 4 }}>
         {/* Tombol Buat Kuis */}
         {userRole === 'admin' && (

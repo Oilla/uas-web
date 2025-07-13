@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useUser } from 'src/components/UserContext';
+import Footer from '@/src/components/Footer';
 
 export default function LoginPage() {
   const { setUser } = useUser();
@@ -58,8 +59,9 @@ export default function LoginPage() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         px: 2,
+        py: 4,
       }}
     >
       {/* Judul Welcome */}
@@ -193,6 +195,7 @@ export default function LoginPage() {
           </Alert>
         )}
       </Paper>
+      <Footer />
     </Box>
   );
 }

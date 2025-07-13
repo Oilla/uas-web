@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WVC-Quiz",
+  title: "EduMath",
   description: "Quiz made by WVC",
+  icons: {
+    icon: "/favicon.ico",
+  }
 };
 
 export default function RootLayout({
