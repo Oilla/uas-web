@@ -38,9 +38,9 @@ export default function ResultPage() {
 
   // Teks motivasi berdasarkan skor
   const motivation =
-    score <= 3
+    score <= 40
       ? 'Wah, ayo belajar lagi!'
-      : score <= 6
+      : score <= 70
       ? 'Semangat belajarnya, kamu pasti bisa!'
       : 'Mantap !! Skor bagus!';
 
