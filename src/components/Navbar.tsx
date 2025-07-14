@@ -73,13 +73,22 @@ function Navbar() {
                 vertical: 'top',
                 horizontal: 'right',
               }}
+              PaperProps={{
+                sx: {
+                  minWidth: 100,
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2,
+                  boxShadow: 3,
+                },
+              }}
             >
-              <MenuItem onClick={handleMenuClose} component={Link} href="/">Home</MenuItem>
-              <MenuItem onClick={handleMenuClose} component={Link} href="/kuis">Kuis</MenuItem>
+              <MenuItem  onClick={handleMenuClose} component={Link} href="/">Home</MenuItem>
+              <MenuItem  onClick={handleMenuClose} component={Link} href="/kuis">Kuis</MenuItem>
               {isLoggedInAsAdmin ? (
-                <MenuItem onClick={handleMenuClose} component={Link} href="/profile">Profile</MenuItem>
+                <MenuItem  onClick={handleMenuClose} component={Link} href="/profile">Profile</MenuItem>
               ) : (
-                <MenuItem onClick={handleMenuClose} component={Link} href="/login">Login</MenuItem>
+                <MenuItem  onClick={handleMenuClose} component={Link} href="/login">Login</MenuItem>
               )}
             </Menu>
           </>

@@ -62,7 +62,10 @@ function ClassPage() {
     >
       <Navbar />
       
-      <Box sx={{marginTop: 10, flexGrow: 1, px: { xs: 2, md: 6 }, py: 4 }}>
+      <Box sx={{marginTop: 5, flexGrow: 1, px: { xs: 2, md: 6 }, py: 4 }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', color: 'black', mb: 3 }}>
+          Kuis
+        </Typography>
         {/* Tombol Buat Kuis */}
         {userRole === 'admin' && (
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mb: 3 }}>

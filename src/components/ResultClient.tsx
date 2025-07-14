@@ -26,10 +26,15 @@ export default function ResultPage() {
     }
   }, [scoreParam, totalParam, router]);
 
-  const score = parseInt(scoreParam || '0', 10);
-  const total = parseInt(totalParam || '0', 10);
-  const correctAnswers = score;
-  const wrongAnswers = total - score;
+  const rawScore = parseInt(scoreParam || '0', 10);
+  const totalQuestions = parseInt(totalParam || '0', 10);
+
+  // Hitung skor 0-100
+  const score = totalQuestions > 0 ? Math.round((rawScore / totalQuestions) * 100) : 0;
+
+  // Validasi jumlah jawaban
+  const correctAnswers = Math.min(rawScore, totalQuestions);
+  const wrongAnswers = Math.max(totalQuestions - correctAnswers, 0);
 
   // Teks motivasi berdasarkan skor
   const motivation =
@@ -76,7 +81,7 @@ export default function ResultPage() {
             <Button
               variant="outlined"
               size="small"
-              onClick={() => router.push('/class')}
+              onClick={() => router.push('/kuis')}
               sx={{
                 textTransform: 'none',
                 fontSize: { xs: '0.8rem', sm: '0.9rem' },
@@ -95,10 +100,12 @@ export default function ResultPage() {
                 textAlign: 'center',
                 mb: { xs: 2, sm: 3 },
                 fontSize: { xs: '1.8rem', sm: '2.4rem' },
+                mt: { xs: 5, sm: 0 }, // ✅ Tambahkan margin top saat di layar kecil
               }}
             >
               Yuk lihat skor kamu!
             </Typography>
+
 
             <Typography
               variant="h6"
